@@ -9,7 +9,7 @@ const av = "https://cdn.discordapp.com/avatars/900781427719819316/8dd05eded702ba
 
 export default function Sidebar() {
     return (
-        <div className="h-fit my-6 ml-6 flex flex-col justify-between items-center w-20 py-6 bg-[var(--background-secondary)]/60 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl transition-all duration-300">
+        <div className="h-fit my-6 ml-6 flex flex-col justify-between items-center w-20 py-6 bg-[var(--background-secondary)]/60 backdrop-blur-xl border border-white/5 rounded-3xl shadow-2xl transition-all duration-300">
             <div className="flex flex-col items-center gap-6">
                 <div className="relative group">
                     <div className="absolute rounded-full blur opacity-40 group-hover:opacity-100 transition duration-300"></div>
