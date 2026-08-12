@@ -19,7 +19,7 @@ export default function SButton(
       >
         { image }
 
-        <div className="absolute left-17 px-2.5 py-1 text-xs font-medium text-white bg-zinc-900 border border-white/10 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50">
+        <div className="absolute left-17 px-2.5 py-1 text-base font-medium text-zinc-300 bg-zinc-900 border border-white/10 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50">
           { name }
         </div>
       </div>

@@ -4,6 +4,8 @@ import SButton from "./sidebar-button";
 import {
     BookImage
 } from "lucide-react";
+import Button from "./button";
+
 
 const av = "https://cdn.discordapp.com/avatars/900781427719819316/8dd05eded702ba453a5e33091a71432c.webp?size=96";
 
