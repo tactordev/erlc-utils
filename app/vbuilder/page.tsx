@@ -33,13 +33,13 @@ function Obj(
     }
 ) {
     return (
-        <div className="flex relative rounded-md group h-full w-fit overflow-y-hidden">
-            <Image src={`/media/${type}/exports/${name}.png`} unoptimized alt={`${name} Model`} width={600} height={400} className="w-128 h-auto" />
+        <div className="flex flex-col relative justify-center items-center rounded-md group h-full w-fit overflow-hidden bg-zinc-200/5 aspect-square w-full">
+            <div className="flex items-center justify-center relative h-full w-full"><Image src={`/media/${type}/exports/${name}.png`} unoptimized alt={`${name} Model`} width={600} height={400} className="object-contain p-2 transition-transform duration-200 group-hover:scale-105" /></div>
             <div onClick={() => { del(id); }} className="group-hover:opacity-100 opacity-0 transition-all duration-200 absolute top-2 right-2 bg-red-900/40 px-3 py-2 rounded-md hover:bg-red-900/50 hover:cursor-pointer hover:scale-105 active:scale-95">
                 <Trash2 className="w-4 h-4 text-zinc-300" />
             </div>
-            <div className="absolute bottom-2 left-2 px-4 py-2 bg-zinc-900/90 rounded-md">
-                <p className="shadow-sm text-zinc-200/40 font-bold text-lg">{name}</p>
+            <div className="absolute bottom-2 left-2 px-4 py-2 bg-zinc-200/5 rounded-md">
+                <p className="text-zinc-200/40 font-bold text-lg">{name}</p>
             </div>
         </div>
     )
@@ -58,7 +58,7 @@ function Editor(
 ) {
     const relevant = objs.filter((obj) => obj.type === type);
     return (
-        <div className={`max-h-[40vh] min-h-[20vh] overflow-y-hidden flex flex-row w-full gap-2 py-2 px-4 flex-wrap mb-4 ${relevant.length > 0 ? "items-end" : "items-center"} justify-center`}>
+        <div className={`max-h-[40vh] min-h-[20vh] overflow-y-hidden w-full gap-2 py-2 px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mb-4 ${relevant.length > 0 ? "items-end" : "items-center"} justify-center`}>
             {
                 relevant.length > 0 ? relevant.map((obj, index) => <Obj key={`${type}obj-${index}`} id={obj.value.id} name={obj.value.name} del={del} type={type} />) : (
                     <div className="flex flex-col items-center justify-center w-full h-full gap-4 opacity-20">
