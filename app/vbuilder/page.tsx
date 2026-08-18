@@ -1,15 +1,18 @@
 "use client";
 import CHR from "@/components/chr";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
+    ChevronDown,
     Circle,
     CircleSlash,
     Plus,
+    ReceiptTurkishLiraIcon,
     Trash2
 } from "lucide-react";
 import Button from "@/components/button";
-import { AccessoryType, VehicleType, vehicles } from "./data";
+import { AccessoryType, VehicleType, vehicles, accessories } from "./data";
 import Image from "next/image";
+import { toPng } from "html-to-image";
 
 type ObjType = {
     id: string;
@@ -29,7 +32,7 @@ function Vehicle(
 ) {
     return (
         <div className="flex relative rounded-md group h-full w-fit overflow-y-hidden">
-            <Image src={"https://picsum.photos/600/400"} alt={`${name} Model`} width={600} height={400} className="h-auto w-fit" />
+            <Image src={`/media/vehicles/exports/${name}.png`} alt={`${name} Model`} width={600} height={400} className="w-128 h-auto" />
             <div onClick={() => { del(id); }} className="group-hover:opacity-100 opacity-0 transition-all duration-200 absolute top-2 right-2 bg-red-900/40 px-3 py-2 rounded-md hover:bg-red-900/50 hover:cursor-pointer hover:scale-105 active:scale-95">
                 <Trash2 className="w-4 h-4 text-zinc-300" />
             </div>
@@ -53,10 +56,10 @@ function Editor(
 ) {
     const relevant = objs.filter((obj) => obj.type === type);
     return (
-        <div className="max-h-[40vh] min-h-[20vh] overflow-y-hidden flex flex-row w-full gap-2 py-2 px-4 flex-wrap mb-4 items-center justify-center">
+        <div className={`max-h-[40vh] min-h-[20vh] overflow-y-hidden flex flex-row w-full gap-2 py-2 px-4 flex-wrap mb-4 ${relevant.length > 0 ? "items-end" : "items-center"} justify-center`}>
             {
                 relevant.length > 0 ? relevant.map((obj, index) => <Vehicle key={`vehicleobj-${index}`} id={obj.value.id} name={obj.value.name} del={del} />) : (
-                    <div className="flex flex-col items-center justify-center gap-4 opacity-20">
+                    <div className="flex flex-col items-center justify-center w-full h-full gap-4 opacity-20">
                         <CircleSlash className="w-16 h-16 text-zinc-500/80" />
                         <p className="text-2xl font-bold text-zinc-500/80">Nothing added.</p>
                     </div>
@@ -64,26 +67,14 @@ function Editor(
             }
         </div>
     )
-}
-
-
-
-const accessories = {
-    "Main Lighting Options": [
-        "LED Lighting",
-        "Pole Lighting",
-    ],
-    "Accessories": [
-        "Gear Bag",
-    ]
-}; 
+} 
 
 function SearchList(
     {
         type,
         add
     }: {
-        type: string;
+        type: "vehicle" | "accessory";
         add: (type: "vehicle" | "accessory", value: VehicleType | AccessoryType) => void;
     }
 ) {
@@ -92,40 +83,59 @@ function SearchList(
         <input value={val} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVal(e.target.value)} type="text" className="text-base my-2 px-4 py-0.5 bg-zinc-300/5 rounded-md outline-none border border-zinc-800/10 focus:border-zinc-800/20" />
     </form>;
 
-    switch (type) {
-        case "vehicle":
-            const res = vehicles.filter((vehicleType) => vehicleType.name.includes(val));
-            const results = <div className="flex flex-col w-full h-full items-center justify-center gap-1">
-                {
-                    res.length > 0 ? (
-                        res.map((vehicleType, index) => <Button key={`vehiclesearch-${index}`} onClick={() => add("vehicle", vehicleType)} className="!justify-start w-full text-sm">{vehicleType.name}</Button>)
-                    ) : (
-                        <div className="w-full flex flex-col items-center justify-center gap-2 opacity-40 mt-2 mb-2">
-                            <CircleSlash className="w-8 h-8 text-zinc-500/80" />
-                            <p className="text-base font-semibold text-zinc-500/80">No results found.</p>
-                        </div>
-                    )
-                }
-            </div>
-            return (
-                <div className="flex flex-col items-center justify-center">
-                    { search }
-                    {
-                        results
-                    }
+    const relev = type === "vehicle" ? vehicles : accessories;
+    const res = relev.filter((value) => value.name.toLowerCase().includes(val.toLowerCase()));
+    const results = <div className="flex flex-col w-full h-full items-center justify-center gap-1">
+        {
+            res.length > 0 ? (
+                res.map((val, index) => <Button key={`vehiclesearch-${index}`} onClick={() => add(type, val)} className="!justify-start w-full text-sm">{val.name}</Button>)
+            ) : (
+                <div className="w-full flex flex-col items-center justify-center gap-2 opacity-40 mt-2 mb-2">
+                    <CircleSlash className="w-8 h-8 text-zinc-500/80" />
+                    <p className="text-base font-semibold text-zinc-500/80">No results found.</p>
                 </div>
             )
-        case "accessory":
-
-        default:
-            return <></>;
-    }
+        }
+    </div>
+    return (
+        <div className="flex flex-col items-center justify-center">
+            { search }
+            {
+                results
+            }
+        </div>
+    )
 }
 
 export default function VBuilder() {
     const [objs, setObjs] = useState<ObjType[]>([]);
-
+    const [col, setCol] = useState<string>("#fff");
+    const [bgCol, setBgCol] = useState<string>("#fff");
+    const [exportDropdown, setExportDropdown] = useState<boolean>(false);
+    const [exporting, setExporting] = useState<boolean>(false);
     const [dropdown, setDropdown] = useState<"vehicle" | "accessory" | null>(null);
+
+    const canvas = useRef<HTMLDivElement>(null);
+
+    const handleExport = async (bgColor?: string) => {
+        if (!canvas.current) return;
+        setExporting(true);
+
+        try {
+            const data = await toPng(canvas.current, {
+                cacheBust: true,
+                backgroundColor: bgColor || undefined,
+            });
+
+            const link = document.createElement("a");
+            link.download = "regulation.png";
+            link.href = data;
+            link.click();
+        } catch (err) {
+            console.error(err);
+        }
+        setExporting(false);
+    };
 
     return (
         <div className="w-full h-full">
@@ -163,9 +173,33 @@ export default function VBuilder() {
                         <CHR />
                     </div>
                 </div>
-                <Editor objs={objs} del={(id: string) => { setObjs([...objs.filter((value) => value.id !== id)]); }} type={"vehicle"} />
-                <CHR />
-                <Editor objs={objs} del={(id: string) => { setObjs([...objs.filter((value) => value.id !== id)]); }} type={"accessory"} />
+                <div className="flex flex-col w-full" ref={canvas}>
+                    <div className="py-2 px-2 flex flex-row justify-start items-center w-full">
+                        <form className="flex flex-row items-center gap-0.5">
+                            { !exporting ? <input type="color" id="html5colorpicker" onChange={(e) => { setCol(e.target.value.toString()); }} className="w-6 rounded-full" value={col}></input> : <></> }
+                            <input style={{ color: col }} className={`text-xl font-semibold py-0.5 border border-transparent rounded-md hover:border-zinc-200/30 focus:outline-none focus:border focus:border-zinc-200/50 px-2`} defaultValue={"Title"}></input>
+                        </form>
+                    </div>
+                    <CHR />
+                    <Editor objs={objs} del={(id: string) => { setObjs([...objs.filter((value) => value.id !== id)]); }} type={"vehicle"} />
+                    <CHR />
+                    <Editor objs={objs} del={(id: string) => { setObjs([...objs.filter((value) => value.id !== id)]); }} type={"accessory"} />
+                </div>
+            </div>
+            <div className="flex flex-row w-full justify-end items-center mt-2">
+                <div className="relative flex flex-row justify-center items-center">
+                    <p onClick={ () => handleExport() } className="bg-zinc-400/10 px-4 py-2 text-zinc-200/80 hover:bg-zinc-200/10 rounded-md rounded-tr-none rounded-br-none duration-200 transition-colors hover:cursor-pointer">Export</p>
+                    <ChevronDown onClick={ (e) => { e.preventDefault(); e.stopPropagation(); setExportDropdown(true); }} className="bg-zinc-400/10 h-full w-auto border hover:bg-zinc-200/10 hover:cursor-pointer !border-l-zinc-500/20 border-transparent px-1 text-zinc-200/80 py-[0.4rem] rounded-md rounded-tl-none rounded-bl-none" />
+                    { exportDropdown ? <div tabIndex={0} onBlur={(e) => { e.preventDefault(); e.stopPropagation(); setExportDropdown(false); }} className="absolute top-full right-0 bg-zinc-200/5 rounded-md w-fit flex flex-col py-2 px-2 gap-2 mt-1">
+                        <Button onClick={ () => handleExport() }>
+                            <p className="text-sm">Transparent</p>
+                        </Button>
+                        <Button onClick={ () => handleExport(bgCol) } className="gap-2">
+                            <input type="color" id="html5colorpicker" onChange={(e) => { setBgCol(e.target.value.toString()); }} className="w-6 rounded-md" value={col}></input>
+                            <p className="text-sm" style={{ color: bgCol }}>Colored</p>
+                        </Button>
+                    </div> : <></> }
+                </div>  
             </div>
         </div>
     )

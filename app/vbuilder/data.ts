@@ -1,5 +1,5 @@
-import createPrompt from "prompt-sync";
-const prompt = createPrompt();
+// import createPrompt from "prompt-sync";
+// const prompt = createPrompt();
 
 
 export type VehicleType = {
@@ -659,27 +659,27 @@ export const vehicles: VehicleType[] = [
     }
 ];
 
-function merge(preset: Record<string, string[]>, additions: Record<string, string[]>, exclusions: Record<string, string[]>): Record<string, string[]> {
-    const finalInfo: Record<string, string[]> = {};
-    const keys = new Set([...Object.keys(preset), ...Object.keys(additions)]);
+// function merge(preset: Record<string, string[]>, additions: Record<string, string[]>, exclusions: Record<string, string[]>): Record<string, string[]> {
+//     const finalInfo: Record<string, string[]> = {};
+//     const keys = new Set([...Object.keys(preset), ...Object.keys(additions)]);
     
-    for (const key of keys) {
-        const base = preset[key] || [];
-        const added = additions[key] || [];
-        const excluded = exclusions[key] || [];
+//     for (const key of keys) {
+//         const base = preset[key] || [];
+//         const added = additions[key] || [];
+//         const excluded = exclusions[key] || [];
 
-        const merged = Array.from(new Set([...base, ...added])).filter((item) => !excluded.includes(item));
+//         const merged = Array.from(new Set([...base, ...added])).filter((item) => !excluded.includes(item));
 
-        if (merged.length > 0) {
-            finalInfo[key] = merged.sort();
-        }
-    }
+//         if (merged.length > 0) {
+//             finalInfo[key] = merged.sort();
+//         }
+//     }
     
-    return finalInfo;
-}
+//     return finalInfo;
+// }
 
-for (const vehicle of vehicles) {
-    console.log(vehicle.name, merge(vehicle.preset, vehicle.additions, vehicle.exclusions));
+// for (const vehicle of vehicles) {
+//     console.log(vehicle.name, merge(vehicle.preset, vehicle.additions, vehicle.exclusions));
 
-    prompt("\n\nENTER to continue.\n\n\n");
-}
+//     prompt("\n\nENTER to continue.\n\n\n");
+// }
