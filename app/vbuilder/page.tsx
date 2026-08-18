@@ -32,7 +32,7 @@ function Vehicle(
 ) {
     return (
         <div className="flex relative rounded-md group h-full w-fit overflow-y-hidden">
-            <Image src={`/media/vehicles/exports/${name}.png`} alt={`${name} Model`} width={600} height={400} className="w-128 h-auto" />
+            <Image src={`/media/vehicles/exports/${name}.png`} unoptimized alt={`${name} Model`} width={600} height={400} className="w-128 h-auto" />
             <div onClick={() => { del(id); }} className="group-hover:opacity-100 opacity-0 transition-all duration-200 absolute top-2 right-2 bg-red-900/40 px-3 py-2 rounded-md hover:bg-red-900/50 hover:cursor-pointer hover:scale-105 active:scale-95">
                 <Trash2 className="w-4 h-4 text-zinc-300" />
             </div>
