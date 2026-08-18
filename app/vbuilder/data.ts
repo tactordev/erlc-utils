@@ -13,6 +13,7 @@ export type VehicleType = {
 export type AccessoryType = {
     id: string;
     name: string;
+    category: string;
 };
 
 const FourWheeler = {
@@ -127,7 +128,238 @@ const modernBase = {
     ]
 }
 
-export const accessories: AccessoryType[] = [];
+export const accessories: AccessoryType[] = [
+    {
+        id: "alpr",
+        name: "ALPR",
+        category: "Accessories",
+    },
+    {
+        id: "arjent-lightbar",
+        name: "Arjent Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "cage",
+        name: "Cage",
+        category: "Accessories",
+    },
+    {
+        id: "cargo-lights-1",
+        name: "Cargo Lights 1",
+        category: "Additional Lighting",
+    },
+    {
+        id: "cargo-lights-2",
+        name: "Cargo Lights 2",
+        category: "Additional Lighting",
+    },
+    {
+        id: "dash-light",
+        name: "Dash Light",
+        category: "Main Light Options",
+    },
+    {
+        id: "double-rear-light-sticks",
+        name: "Double Rear Light Sticks",
+        category: "Rear Light Options",
+    },
+    {
+        id: "edge-lightbar",
+        name: "Edge Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "fog-lights",
+        name: "Fog Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "freedom-lightbar",
+        name: "Freedom Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "front-bumper-lights",
+        name: "Front Bumper Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "gear-bag",
+        name: "Gear Bag",
+        category: "Accessories",
+    },
+    {
+        id: "grappler",
+        name: "Grappler",
+        category: "Accessories",
+    },
+    {
+        id: "grille-lights",
+        name: "Grille Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "grille-lightstick",
+        name: "Grille Lightstick",
+        category: "Additional Lighting",
+    },
+    {
+        id: "headlight-lights",
+        name: "Headlight Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "integrity-lightbar",
+        name: "Integrity Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "laptop",
+        name: "Laptop",
+        category: "Accessories",
+    },
+    {
+        id: "led-rotary-lightbar",
+        name: "LED Rotary Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "legacy-lightbar",
+        name: "Legacy Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "liberty-lightbar",
+        name: "Liberty Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "mini-lightbar",
+        name: "Mini Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "mirror-lights",
+        name: "Mirror Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "n-force-lightbar",
+        name: "N-Force Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "navigator-lightbar",
+        name: "Navigator Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "outer-grille-lights",
+        name: "Outer Grille Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "pillar-lights",
+        name: "Pillar Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "plate-lights",
+        name: "Plate Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "pole-lighting",
+        name: "Pole Lighting",
+        category: "Main Light Options",
+    },
+    {
+        id: "pushbar-floodlight",
+        name: "Pushbar Floodlight",
+        category: "Accessories",
+    },
+    {
+        id: "pushbar-lights",
+        name: "Pushbar Lights",
+        category: "Accessories",
+    },
+    {
+        id: "pushbar",
+        name: "Pushbar",
+        category: "Accessories",
+    },
+    {
+        id: "rear-bumper-lights",
+        name: "Rear Bumper Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "rear-deck-lights",
+        name: "Rear Deck Lights",
+        category: "Rear Light Options",
+    },
+    {
+        id: "rear-lightbar",
+        name: "Rear Lightbar",
+        category: "Rear Light Options",
+    },
+    {
+        id: "rear-lightstick",
+        name: "Rear Lightstick",
+        category: "Rear Light Options",
+    },
+    {
+        id: "rear-trim-lights",
+        name: "Rear Trim Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "rear-upper-lights",
+        name: "Rear Upper Lights",
+        category: "Additional Lighting",
+    },
+    {
+        id: "rear-window-lightstick",
+        name: "Rear Window Lightstick",
+        category: "Rear Light Options",
+    },
+    {
+        id: "rotary-bar-classic",
+        name: "Rotary Bar Classic",
+        category: "Main Light Options",
+    },
+    {
+        id: "small-rear-lightstick",
+        name: "Small Rear Lightstick",
+        category: "Rear Light Options",
+    },
+    {
+        id: "small-spoiler-lights",
+        name: "Small Spoiler Lights",
+        category: "Rear Light Options",
+    },
+    {
+        id: "spoiler-lights",
+        name: "Spoiler Lights",
+        category: "Rear Light Options",
+    },
+    {
+        id: "valor-lightbar",
+        name: "Valor Lightbar",
+        category: "Main Light Options",
+    },
+    {
+        id: "visor-lights",
+        name: "Visor Lights",
+        category: "Main Light Options",
+    },
+    {
+        id: "wraparound-rambar",
+        name: "Wraparound Rambar",
+        category: "Accessories",
+    },
+];
 
 export const vehicles: VehicleType[] = [
     {

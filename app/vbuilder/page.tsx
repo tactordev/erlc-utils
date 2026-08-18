@@ -19,20 +19,22 @@ type ObjType = {
     type: "vehicle" | "accessory";
     value: VehicleType | AccessoryType
 }
-function Vehicle(
+function Obj(
     {
         id,
         name,
-        del
+        del,
+        type
     }: {
         id: string;
         name: string;
         del: (id: string) => void;
+        type: "vehicle" | "accessory";
     }
 ) {
     return (
         <div className="flex relative rounded-md group h-full w-fit overflow-y-hidden">
-            <Image src={`/media/vehicles/exports/${name}.png`} unoptimized alt={`${name} Model`} width={600} height={400} className="w-128 h-auto" />
+            <Image src={`/media/${type}/exports/${name}.png`} unoptimized alt={`${name} Model`} width={600} height={400} className="w-128 h-auto" />
             <div onClick={() => { del(id); }} className="group-hover:opacity-100 opacity-0 transition-all duration-200 absolute top-2 right-2 bg-red-900/40 px-3 py-2 rounded-md hover:bg-red-900/50 hover:cursor-pointer hover:scale-105 active:scale-95">
                 <Trash2 className="w-4 h-4 text-zinc-300" />
             </div>
@@ -49,7 +51,7 @@ function Editor(
         objs,
         del
     }: {
-        type: string;
+        type: "vehicle" | "accessory";
         objs: ObjType[];
         del: (id: string) => void;
     }
@@ -58,7 +60,7 @@ function Editor(
     return (
         <div className={`max-h-[40vh] min-h-[20vh] overflow-y-hidden flex flex-row w-full gap-2 py-2 px-4 flex-wrap mb-4 ${relevant.length > 0 ? "items-end" : "items-center"} justify-center`}>
             {
-                relevant.length > 0 ? relevant.map((obj, index) => <Vehicle key={`vehicleobj-${index}`} id={obj.value.id} name={obj.value.name} del={del} />) : (
+                relevant.length > 0 ? relevant.map((obj, index) => <Obj key={`${type}obj-${index}`} id={obj.value.id} name={obj.value.name} del={del} type={type} />) : (
                     <div className="flex flex-col items-center justify-center w-full h-full gap-4 opacity-20">
                         <CircleSlash className="w-16 h-16 text-zinc-500/80" />
                         <p className="text-2xl font-bold text-zinc-500/80">Nothing added.</p>
@@ -79,32 +81,84 @@ function SearchList(
     }
 ) {
     const [val, setVal] = useState<string>("");
-    const search = <form onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-        <input value={val} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVal(e.target.value)} type="text" className="text-base my-2 px-4 py-0.5 bg-zinc-300/5 rounded-md outline-none border border-zinc-800/10 focus:border-zinc-800/20" />
-    </form>;
+    const search = (
+        <form onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            <input
+                value={val}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVal(e.target.value)}
+                type="text"
+                placeholder="Search..."
+                className="text-base my-2 px-4 py-0.5 bg-zinc-300/5 rounded-md outline-none border border-zinc-800/10 focus:border-zinc-800/20 w-full"
+            />
+        </form>
+    );
 
-    const relev = type === "vehicle" ? vehicles : accessories;
-    const res = relev.filter((value) => value.name.toLowerCase().includes(val.toLowerCase()));
-    const results = <div className="flex flex-col w-full h-full items-center justify-center gap-1">
-        {
-            res.length > 0 ? (
-                res.map((val, index) => <Button key={`vehiclesearch-${index}`} onClick={() => add(type, val)} className="!justify-start w-full text-sm">{val.name}</Button>)
-            ) : (
-                <div className="w-full flex flex-col items-center justify-center gap-2 opacity-40 mt-2 mb-2">
-                    <CircleSlash className="w-8 h-8 text-zinc-500/80" />
-                    <p className="text-base font-semibold text-zinc-500/80">No results found.</p>
+    if (type === "vehicle") {
+        const res = vehicles.filter((value) => value.name.toLowerCase().includes(val.toLowerCase()));
+        return (
+            <div className="flex flex-col items-center justify-center w-full">
+                {search}
+                <div className="flex flex-col w-full h-full items-center justify-center gap-1">
+                    {res.length > 0 ? (
+                        res.map((val, index) => (
+                            <Button key={`vehiclesearch-${index}`} onClick={() => add("vehicle", val)} className="!justify-start w-full text-sm">
+                                {val.name}
+                            </Button>
+                        ))
+                    ) : (
+                        <div className="w-full flex flex-col items-center justify-center gap-2 opacity-40 mt-2 mb-2">
+                            <CircleSlash className="w-8 h-8 text-zinc-500/80" />
+                            <p className="text-base font-semibold text-zinc-500/80">No results found.</p>
+                        </div>
+                    )}
                 </div>
-            )
-        }
-    </div>
+            </div>
+        );
+    }
+
+    const filteredAccessories = accessories.filter((item) =>
+        item.name.toLowerCase().includes(val.toLowerCase())
+    );
+
+    const groupedAccessories = filteredAccessories.reduce<Record<string, AccessoryType[]>>((acc, item) => {
+        const cat = item.category || "Other";
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(item);
+        return acc;
+    }, {});
+
+    const categories = Object.keys(groupedAccessories);
+
     return (
-        <div className="flex flex-col items-center justify-center">
-            { search }
-            {
-                results
-            }
+        <div className="flex flex-col items-center justify-center w-full">
+            {search}
+            <div className="flex flex-col w-full h-full items-start justify-start gap-3 mt-1">
+                {categories.length > 0 ? (
+                    categories.map((category) => (
+                        <div key={category} className="w-full flex flex-col gap-1">
+                            <p className="text-xs font-bold text-zinc-400/60 tracking-wider px-1 text-left">
+                                {category}
+                            </p>
+                            {groupedAccessories[category].map((item, index) => (
+                                <Button
+                                    key={`accsearch-${category}-${index}`}
+                                    onClick={() => add("accessory", item)}
+                                    className="!justify-start w-full text-sm"
+                                >
+                                    {item.name}
+                                </Button>
+                            ))}
+                        </div>
+                    ))
+                ) : (
+                    <div className="w-full flex flex-col items-center justify-center gap-2 opacity-40 mt-2 mb-2">
+                        <CircleSlash className="w-8 h-8 text-zinc-500/80" />
+                        <p className="text-base font-semibold text-zinc-500/80">No results found.</p>
+                    </div>
+                )}
+            </div>
         </div>
-    )
+    );
 }
 
 export default function VBuilder() {
