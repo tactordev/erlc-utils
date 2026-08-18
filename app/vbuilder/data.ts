@@ -1,6 +1,6 @@
+import createPrompt from "prompt-sync";
+const prompt = createPrompt();
 
-
-// check for missing wheel covers
 
 export type VehicleType = {
     id: string;
@@ -65,12 +65,8 @@ const legacyBase = {
     ],
     "Siren Speakers": [
         "Compact",
-        "Conventional",
-        "Low Profile 1",
-        "Low Profile 2"
     ],
     "Spotlights": [
-        "Halogen Spotlight",
         "LED Spotlight",
         "Passenger Spotlight"
     ],
@@ -102,9 +98,14 @@ const modernBase = {
         "Under Mirror Lights"
     ],
     "Accessories": [
+        "ALPR",
+        "Cage",
+        "Civilian Horn",
         "Grappler",
+        "Laptop",
         "Pushbar",
         "Unmarked Plate",
+        "Wheel Covers",
         "Wraparound Rambar"
     ],
     "Antennas": [
@@ -115,12 +116,8 @@ const modernBase = {
     ],
     "Siren Speakers": [
         "Compact",
-        "Conventional",
-        "Low Profile 1",
-        "Low Profile 2"
     ],
     "Spotlights": [
-        "Halogen Spotlight",
         "LED Spotlight",
         "Passenger Spotlight"
     ],
@@ -129,6 +126,8 @@ const modernBase = {
         "Small Siderunner"
     ]
 }
+
+export const accessories: AccessoryType[] = [];
 
 export const vehicles: VehicleType[] = [
     {
@@ -169,16 +168,15 @@ export const vehicles: VehicleType[] = [
         exclusions: {}
     },
     {
-        id: "2022-bullhorn-determinator-c/t",
-        name: "2022 Bullhorn Determinator C/T",
+        id: "2022-bullhorn-determinator-ct",
+        name: "2022 Bullhorn Determinator CT",
         preset: modernBase,
         additions: {
             "Rear Light Options": [ "Rear Lightstick" ],
             "Additional Lighting": [ "Lower Grille Lights", "Rear Upper Lights" ],
-            "Accessories": [ "ALPR", "Civilian Horn" ]
         },
         exclusions: {
-            "Accessories": [ "Cage", "Laptop" ]
+            "Accessories": [ "Cage", "Laptop" ],
         }
     },
     {
@@ -187,22 +185,22 @@ export const vehicles: VehicleType[] = [
         preset: {
             "Main Light Options": [ "Rotary Bar Classic" ],
             "Accessories": [ "Pushbar" ],
-            "Spotlights": [ "Halogen Spotlight", "Passenger Spotlight" ],
+            "Spotlights": [ "Passenger Spotlight" ],
             "Antennas": [ "Long Range Antenna" ]
         },
         additions: {},
         exclusions: {}
     },
     {
-        id: "2020-bullhorn-prancer-widebody-pursuit",
-        name: "2020 Bullhorn Prancer Widebody Pursuit",
+        id: "2020-bullhorn-prancer-fury-widebody-pursuit",
+        name: "2020 Bullhorn Prancer Fury Widebody Pursuit",
         preset: modernBase,
         additions: {
             "Rear Light Options": [ "Rear Deck Lights", "Rear Lightstick", "Small Rear Lightstick" ],
             "Additional Lighting": [ "Fog Lights", "Tail Light Flasher", "Upper Rear Lights" ],
         },
         exclusions: {
-            "Accessories": [ "ALPR" ]
+            "Accessories": [ "ALPR", "Civilian Horn" ]
         }
     },
     {
@@ -210,6 +208,7 @@ export const vehicles: VehicleType[] = [
         name: "2011 Bullhorn Prancer Pursuit",
         preset: modernBase,
         additions: {
+            "Main Light Options": [ "Rotary Bar Classic" ],
             "Rear Light Options": [ "Rear Deck Lights", "Rear Lightstick", "Small Rear Lightstick" ],
             "Additional Lighting": [ "Fog Lights", "Tail Light Flasher", "Upper Rear Lights" ],
         },
@@ -223,7 +222,9 @@ export const vehicles: VehicleType[] = [
             "Rear Light Options": [ "Rear Deck Lights", "Rear Lightstick", "Small Rear Lightstick" ],
             "Additional Lighting": [ "Fender Lights", "Fog Lights", "Tail Light Flasher", "Upper Rear Lights" ],
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Civilian Horn" ]
+        }
     },
     {
         id: "2022-bullhorn-pueblo-pursuit",
@@ -234,7 +235,9 @@ export const vehicles: VehicleType[] = [
             "Additional Lighting": [ "Fender Lights", "Fog Lights", "Tail Light Flasher" ],
             "Accessories": [ "Trailer Hitch" ],
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Civilian Horn", "Grappler" ]
+        }
     },
     {
         id: "canyon-descender",
@@ -254,7 +257,9 @@ export const vehicles: VehicleType[] = [
             "Additional Lighting": [ "Rear Bumper Lights" ],
             "Accessories": [ "Trailer Hitch" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Cage", "Wraparound Rambar" ]
+        }
     },
     {
         id: "2011-chevlon-amigo-lzr",
@@ -265,7 +270,9 @@ export const vehicles: VehicleType[] = [
             "Additional Lighting": [ "Fog Lights" ],
             "Accessories": [ "Reverse Flashers" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Cage", "Laptop" ]
+        }
     },
     {
         id: "1994-chevlon-antelope-ss",
@@ -277,7 +284,9 @@ export const vehicles: VehicleType[] = [
             "Additional Lighting": [ "Rear Upper Lights" ],
             "Accessories": [ "Dash Light" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Additional Lighting": [ "Dash Light" ]
+        }
     },
     {
         id: "2018-chevlon-camion-ppv",
@@ -313,11 +322,15 @@ export const vehicles: VehicleType[] = [
                 "Taillight Flasher"
             ],
             "Accessories": [ "Front Plate", "Trailer Hitch" ],
-            "Pushbar Accessories": [ "Pushbar Floodlight", "Pushbar Lights 1", "Pushbar Lights 2", "Pushbar Lights 3" ],
-            "Siderunners": [ "Small Siderunner 2"]
+            "Pushbar Accessories": [ "Pushbar", "Pushbar Floodlight", "Pushbar Lights 1", "Pushbar Lights 2", "Pushbar Lights 3", "Wraparound Rambar" ],
+            "Siderunners": [ "Small Siderunner 1", "Small Siderunner 2"]
 
         },
-        exclusions: {}
+        exclusions: {
+            "Additional Lighting": [ "Grille Lights", "Plate Lights" ],
+            "Accessories": [ "Pushbar", "Wheel Covers", "Wraparound Rambar" ],
+            "Siderunners": [ "Small Siderunner" ]
+        }
     },
     {
         id: "2000-chevlon-camion-ppv",
@@ -328,7 +341,9 @@ export const vehicles: VehicleType[] = [
             "Rear Light Options": [ "Rear Lightbar", "Rear Lightstick" ],
             "Accessories": [ "Reverse Flashers", "Trailer Hitch" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Cage" ]
+        }
     },
     {
         id: "2008-chevlon-camion-ppv",
@@ -369,13 +384,15 @@ export const vehicles: VehicleType[] = [
                 "Valor Lightbar",
                 "Visor Lights"
             ],
-            "Rear Light Options": [ "Rear Window Lights", "Mini Lightbar" ],
+            "Rear Light Options": [ "Rear Window Lights" ],
             "Additional Lighting": [ "Grille Lights", "Side Lighting", "Under Mirror Lights" ],
             "Accessories": [ "ALPR", "Civilian Horn", "Unmarked Plate" ],
             "Antennas": [ "5G Antenna", "Long Range Antenna", "Low Profile Antenna", "Short Antenna" ]
         },
         additions: {},
-        exclusions: {}
+        exclusions: {
+            "Main Light Options": [ "Dash Light" ]
+        }
     },
     {
         id: "2014-chevlon-corbeta-rzr",
@@ -385,7 +402,9 @@ export const vehicles: VehicleType[] = [
             "Rear Light Options": [ "Rear Window Lightstick" ],
             "Additional Lighting": [ "Outer Grille Lights" ],
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Cage" ]
+        }
     },
     {
         id: "1981-chevlon-inferno",
@@ -394,10 +413,13 @@ export const vehicles: VehicleType[] = [
             "Main Light Options": [ "Rotary Bar Classic" ],
             "Accessories": [ "Pushbar", "Trailer Hitch" ],
             "Antennas": [ "Long Range Antenna" ],
-            "Spotlights": [ "Halogen Spotlight", "Passenger Spotlight" ]
+            "Spotlights": [ "Passenger Spotlight" ]
         },
         additions: {},
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Cage", "Civilian Horn", "Grappler", "Laptop", "Pushbar", "Unmarked Plate", "Wheel Covers", "Wraparound Rambar" ],
+            "Siren Speakers": [ "Compact" ]
+        }
     },
     {
         id: "2019-chevlon-platoro-ppv",
@@ -406,7 +428,9 @@ export const vehicles: VehicleType[] = [
         additions: {
             "Accessories": [ "Trailer Hitch" ]
         },
-        exclusions: {}
+        exclusions: {
+            
+        }
     },
     {
         id: "2020-emergency-services-falcon-advance-plus",
@@ -427,24 +451,31 @@ export const vehicles: VehicleType[] = [
         preset: modernBase,
         additions: {
             "Rear Light Options": [ "Rear Lightstick" ],
-            "Accessories": [ "Bedcap", "Cage", "Trailer Hitch" ]
+            "Accessories": [ "Bedcap", "Trailer Hitch" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Laptop" ]
+        }
     },
     {
         id: "2022-falcon-advance-xet",
         name: "2022 Falcon Advance XET",
         preset: modernBase,
         additions: {
+            "Main Light Options": [ "Navigator Lightbar" ],
             "Rear Light Options": [ "Double Rear Light Sticks", "Rear Lightstick", "Small Rear Lightstick"],
             "Additional Lighting": [ "Grille Lights 1", "Grille Lights 2", "Tailgate Light" ],
-            "Accessories": [ "Cage", "Front Plate", "Trailer Hitch" ],
-            "Siderunners": [ "Small Siderunner 2", "Side Lights" ],
-            "Pushbar Accessories": [ "Pushbar Floodlight", "Pushbar Lights 1" ],
+            "Accessories": [ "Front Plate", "Trailer Hitch" ],
+            "Siderunners": [ "Small Siderunner 1", "Small Siderunner 2", "Side Lights" ],
+            "Pushbar Accessories": [ "Pushbar", "Pushbar Floodlight", "Pushbar Lights 1", "Wraparound Rambar" ],
             "Side Lighting": [ "Mirror Lights" ],
-            "Bed Options": [ "Bed Cover", "Toolbox", "Toolbox w/ Lights" ]
+            "Bed Options": [ "Bed Cover", "Toolbox", "Toolbox W/ Lights" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Additional Lighting": [ "Grille Lights" ],
+            "Accessories": [ "Pushbar", "Wheel Covers", "Wraparound Rambar" ],
+            "Siderunners": [ "Small Siderunner" ]
+        }
     },
     {
         id: "2024-falcon-estallion",
@@ -453,22 +484,27 @@ export const vehicles: VehicleType[] = [
         additions: {
             "Rear Light Options": [ "Rear Lightstick" ],
             "Additional Lighting": [ "Rear Trim Lights" ],
-            "Accessories": [ "Cage" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Laptop", "Wheel Covers" ]
+        }
     },
     {
         id: "2013-falcon-global-350",
         name: "2013 Falcon Global 350",
         preset: modernBase,
         additions: {
-            "Main Light Options": [ "Rotary Bar Classic" ],
+            "Main Light Options": [ "Rotary Bar Classic", "Navigator Lightbar" ],
             "Rear Light Options": [ "Double Rear Light Sticks" ],
             "Additional Lighting": [ "Grille Lights 1", "Rear Bumper Lights" ],
-            "Accessories": [ "Front Plate", "Trailer Hitch" ]
+            "Accessories": [ "Front Plate", "Trailer Hitch" ],
+            "Siderunners": [ "Side Lights" ]
         },
         exclusions: {
-            "Accessories": [ "ALPR" ]
+            "Additional Lighting": [ "Grille Lights", "Plate Lights", "Side Window Lights", "Under Mirror Lights" ],
+            "Accessories": [ "ALPR", "Cage", "Grappler", "Laptop", "Pushbar", "Wheel Covers", "Wraparound Rambar" ],
+            "SpotLights": [ "LED Spotlight", "Passenger Spotlight" ],
+            "Siderunners": [ "Siderunners", "Small Siderunner" ]
         }
     },
     {
@@ -476,9 +512,9 @@ export const vehicles: VehicleType[] = [
         name: "2017 Falcon Interceptor Sedan",
         preset: modernBase,
         additions: {
-            "Rear Light Options": [ "Rear Lightstick", "Rear Window Lightstick", "Small Rear Lightstick" ],
-            "Additional Lighting": [ "Fog Lights", "Tail Light Flasher" ],
-            "Accessories": [ "ALPR", "Cage", "Laptop", "Reverse Flashers" ]
+            "Rear Light Options": [ "Rear Deck Lights", "Rear Lightstick", "Small Rear Lightstick" ],
+            "Additional Lighting": [ "Fender Lights", "Lower Grille Lights", "Tail Light Flasher", "Upper Rear Lights" ],
+            "Accessories": []
         },
         exclusions: {}
     },
@@ -487,9 +523,9 @@ export const vehicles: VehicleType[] = [
         name: "2019 Falcon Interceptor Utility",
         preset: modernBase,
         additions: {
-            "Rear Light Options": [ "Rear Lightbar", "Rear Lightstick", "Spoiler Lights" ],
-            "Additional Lighting": [ "Fender Lights", "Fog Lights", "Pillar Lights", "Spoiler Lights" ],
-            "Accessories": [ "ALPR", "Cage", "Laptop", "Trailer Hitch" ]
+            "Rear Light Options": [ "Rear Lightstick", "Spoiler Lights" ],
+            "Additional Lighting": [ "Lower Grille Lights", "Pillar Lights" ],
+            "Accessories": [ "Trailer Hitch" ]
         },
         exclusions: {}
     },
@@ -499,10 +535,9 @@ export const vehicles: VehicleType[] = [
         preset: modernBase,
         additions: {
             "Main Light Options": [ "Navigator Lightbar" ],
-            "Rear Light Options": [ "Double Rear Light Sticks", "Rear Lightbar", "Rear Lightstick", "Spoiler Lights" ],
-            "Additional Lighting": [ "Cargo Lights 1", "Fender Lights", "Fog Lights", "Grille Lights 1", "Grille Lights 2", "Mirror Lights", "Pillar Lights", "Taillight Flasher" ],
-            "Accessories": [ "ALPR", "Cage", "Front Plate", "Laptop", "Trailer Hitch" ],
-            "Pushbar Accessories": [ "Pushbar Floodlight", "Pushbar Lights 1", "Pushbar Lights 2" ]
+            "Rear Light Options": [ "Double Rear Light Sticks", "Rear Lightbar", "Rear Lightstick", "Small Rear Lightstick", "Small Spoiler Lights", "Spoiler Lights" ],
+            "Additional Lighting": [ "Fog Lights", "Grille Lightstick", "Headlight Lights", "Lower Grille Lights", "Taillight Flasher" ],
+            "Accessories": [ "Front Plate" ],
         },
         exclusions: {}
     },
@@ -511,11 +546,13 @@ export const vehicles: VehicleType[] = [
         name: "2013 Falcon Interceptor Utility",
         preset: modernBase,
         additions: {
-            "Rear Light Options": [ "Rear Lightbar", "Rear Lightstick" ],
-            "Additional Lighting": [ "Fog Lights", "Pillar Lights" ],
+            "Rear Light Options": [ "Double Rear Light Sticks", "Rear Lightbar", "Rear Lightstick", "Small Rear Lightstick", "Small Spoiler Lights", "Spoiler Lights" ],
+            "Additional Lighting": [ "Fog Lights", "Lower Grille Lights", "Taillight Flasher" ],
             "Accessories": [ "ALPR", "Cage", "Laptop", "Trailer Hitch" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Civilian Horn" ]
+        }
     },
     {
         id: "2003-falcon-prime-eques-interceptor",
@@ -523,33 +560,38 @@ export const vehicles: VehicleType[] = [
         preset: legacyBase,
         additions: {
             "Main Light Options": [ "Rotary Bar Classic" ],
-            "Rear Light Options": [ "Rear Window Lightstick" ],
-            "Additional Lighting": [ "Rear Upper Lights" ],
-            "Accessories": [ "ALPR", "Cage", "Laptop" ]
+            "Rear Light Options": [ "Rear Deck Lights", "Rear Lightstick", "Small Rear Lightstick" ],
+            "Additional Lighting": [ "Fog Lights", "Tail Light Flasher" ],
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Grappler" ]
+        }
     },
     {
         id: "2021-falcon-rampage-interceptor",
         name: "2021 Falcon Rampage Interceptor",
         preset: modernBase,
         additions: {
-            "Rear Light Options": [ "Rear Deck Lights", "Rear Lightstick", "Small Rear Lightstick" ],
-            "Additional Lighting": [ "Fog Lights", "Tail Light Flasher" ],
+            "Rear Light Options": [ "Double Rear Light Sticks", "Rear Lightbar", "Rear Lightstick", "Small Rear Lightstick", "Small Spoiler Lights" ],
+            "Additional Lighting": [ "Rear Bumper Lights" ],
             "Accessories": [ "ALPR", "Cage", "Laptop" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Additional Lighting": [ "Plate Lights" ]
+        }
     },
     {
         id: "2015-falcon-stallion-350",
         name: "2015 Falcon Stallion 350",
         preset: modernBase,
         additions: {
-            "Rear Light Options": [ "Rear Lightstick" ],
-            "Additional Lighting": [ "Grille Lights 1" ],
-            "Accessories": [ "Bedcap", "Cage", "Front Plate", "Trailer Hitch" ]
+            "Rear Light Options": [ "Rear Window Lightstick" ],
+            "Additional Lighting": [ "Lower Grille Lights", "Outer Grille Lights", "Rear Upper Lights", "Upper Grille Lights" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Accessories": [ "Cage" ],
+            "Additional Lighting": [ "Grille Lights" ]
+        }
     },
     {
         id: "2002-falcon-traveller",
@@ -557,10 +599,13 @@ export const vehicles: VehicleType[] = [
         preset: legacyBase,
         additions: {
             "Main Light Options": [ "Rotary Bar Classic" ],
-            "Rear Light Options": [ "Rear Window Lightstick" ],
-            "Accessories": [ "Reverse Flashers", "Trailer Hitch" ]
+            "Rear Light Options": [ "Rear Lightbar", "Rear Lightstick" ],
+            "Accessories": [ "Cage", "Laptop", "Reverse Flashers", "Trailer Hitch" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Rear Light Options": [ "Rear Window Lights" ],
+            "Accessories": [ "Wheel Covers" ]
+        }
     },
     {
         id: "2022-falcon-traveller-ppv",
@@ -568,20 +613,24 @@ export const vehicles: VehicleType[] = [
         preset: modernBase,
         additions: {
             "Main Light Options": [ "Navigator Lightbar" ],
-            "Rear Light Options": [ "Double Rear Light Sticks", "Rear Lightbar", "Rear Lightstick" ],
-            "Additional Lighting": [ "Fog Lights", "Pillar Lights", "Taillight Flasher" ],
-            "Accessories": [ "ALPR", "Cage", "Laptop", "Trailer Hitch" ]
+            "Rear Light Options": [ "Double Rear Light Sticks", "Rear Lightbar", "Rear Lightstick", "Small Rear Lightstick", "Small Spoiler Lights", "Spoiler Lights" ],
+            "Additional Lighting": [ "Cargo Lights", "Grille Lights 1", "Grille Lights 2", "Mirror Lights", "Plate Lights 1", "Plage Lights 2", "Fog Lights", "Rear Bumper Lights" ],
+            "Accessories": [ "Front Plate", "Trailer Hitch" ],
+            "Pushbar Accessories": [ "Pushbar", "Pushbar Floodlight", "Pushbar Lights 1", "Pushbar Lights 2", "Wraparound Rambar" ],
+            "Siderunners": [ "Small Siderunner 1", "Small Siderunner 2" ]
         },
-        exclusions: {}
+        exclusions: {
+            "Additional Lighting": [ "Grille Lights", "Plate Lights" ],
+            "Accessories": [ "Cage", "Pushbar", "Wheel Covers", "Wraparound Rambar" ],
+            "Siderunners": [ "Small Siderunner" ]
+        }
     },
     {
         id: "2005-mobile-command",
         name: "2005 Mobile Command",
         preset: {
-            "Main Light Options": [ "Arjent Lightbar", "Edge Lightbar", "Legacy Lightbar" ],
-            "Scene Lighting": [ "Flood Lights", "Perimeter Lights", "Roof Flood Lights" ],
-            "Accessories": [ "Command Awning", "Satellite Dish", "Trailer Hitch" ],
-            "Siren Speakers": [ "Conventional", "Low Profile 1" ]
+            "Main Light Options": [ "Freedom Lightbar" ],
+            "Antennas": [ "5G Antenna", "Long Range Antenna", "Low Profile Antena", "Short Antenna" ]
         },
         additions: {},
         exclusions: {}
@@ -590,26 +639,47 @@ export const vehicles: VehicleType[] = [
         id: "2020-stuttgart-runner-prisoner-transport",
         name: "2020 Stuttgart Runner Prisoner Transport",
         preset: {
-            "Main Light Options": [ "Arjent Lightbar", "Edge Lightbar", "Legacy Lightbar", "Visor Lights" ],
-            "Rear Light Options": [ "Rear Lightbar", "Rear Window Lights" ],
-            "Additional Lighting": [ "Grille Lights", "Side Window Lights" ],
-            "Accessories": [ "ALPR", "Cage", "Prisoner Cell Partition", "Step Rail" ],
-            "Spotlights": [ "Halogen Spotlight", "LED Spotlight" ]
+            "Main Light Options": modernBase["Main Light Options"],
+            "Rear Light Options": [ "Rear Upper Lights" ],
+            "Additional Lighting": ["Dash Light", "Grille Lights", "Side Lighting", "Under Mirror Lights" ],
+            "Accessories": [ "Civilian Horn", "Unmarked Plate" ],
+            "Antennas": modernBase["Antennas"],
         },
-        additions: {},
+        additions: {
+            "Scene Lighting": [ "LED Lightbar" ]
+        },
         exclusions: {}
     },
     {
         id: "2011-swat-armored-truck",
         name: "2011 SWAT Armored Truck",
-        preset: {
-            "Main Light Options": [ "LED Rotary Lightbar", "Mini Lightbar" ],
-            "Scene Lighting": [ "Flood Lights", "Side Flood Lights" ],
-            "Additional Lighting": [ "Grille Lights", "Upper Cab Flasher" ],
-            "Accessories": [ "Heavy Duty Bumper", "Peephole Armor", "Roof Hatch", "Running Boards" ],
-            "Siren Speakers": [ "Conventional", "Dual Siren" ]
-        },
+        preset: {},
         additions: {},
         exclusions: {}
     }
 ];
+
+function merge(preset: Record<string, string[]>, additions: Record<string, string[]>, exclusions: Record<string, string[]>): Record<string, string[]> {
+    const finalInfo: Record<string, string[]> = {};
+    const keys = new Set([...Object.keys(preset), ...Object.keys(additions)]);
+    
+    for (const key of keys) {
+        const base = preset[key] || [];
+        const added = additions[key] || [];
+        const excluded = exclusions[key] || [];
+
+        const merged = Array.from(new Set([...base, ...added])).filter((item) => !excluded.includes(item));
+
+        if (merged.length > 0) {
+            finalInfo[key] = merged.sort();
+        }
+    }
+    
+    return finalInfo;
+}
+
+for (const vehicle of vehicles) {
+    console.log(vehicle.name, merge(vehicle.preset, vehicle.additions, vehicle.exclusions));
+
+    prompt("\n\nENTER to continue.\n\n\n");
+}
