@@ -6,6 +6,7 @@ I plan to build an archive of information about the game and help roleplay commu
 
 This inspiration comes from the lack of information on the fandom page. In addition, the complaints I have received about building documentation for departments: "yea it may look cool but that takes too long to implement". 
 
+<img width="1897" height="875" alt="image" src="https://github.com/user-attachments/assets/a4f57a9b-9b1a-4947-811a-533d9f3d020c" />
 
 ### How it works
 If you load the [DEMO](https://erlc.tactor.dev/), you can see the project in action. There is a sidebar where you can select the specific utility you wish. In the beginning it will just be a list of utilities, however I plan to add sections and folders for better categorisation. 
@@ -29,7 +30,6 @@ I gratefully accept all the help I can get. To contribute to this project there 
 2. If you wish to help with the archive of the game by providing assets or other information, please feel free to either follow the PR process or DM me on discord @ mischiefxd_. or email me @ tactor@proton.me.
 
 Many thanks once again if you do wish to help me with this project.
-
 
 
 Made with 💕 tactordev.
