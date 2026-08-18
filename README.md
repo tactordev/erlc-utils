@@ -10,7 +10,7 @@ This inspiration comes from the lack of information on the fandom page. In addit
 ### How it works
 If you load the [DEMO](https://erlc.tactor.dev/), you can see the project in action. There is a sidebar where you can select the specific utility you wish. In the beginning it will just be a list of utilities, however I plan to add sections and folders for better categorisation. 
 
-This is also an open-source project under the MIT license. This means that you can freely ....
+This is also an open-source project under the MIT license. This means that you can freely modify and distribute the code for personal and commercial applications.
 
 
 ### Running locally
@@ -32,5 +32,4 @@ Many thanks once again if you do wish to help me with this project.
 
 
 
-Made with 💕.
-tactordev
+Made with 💕 tactordev.
